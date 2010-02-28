@@ -188,8 +188,8 @@ class Session {
         $row = $db->sql_fetchrow($result);
 
         //Gets user instance
-        //require_once('includes/objects/user.php');
-        //$user = new User($row['user_id']);
+        require_once('includes/objects/user.php');
+        $user = new User($row['user_id']);
 
         //Adds session property to this user instance
         $user->session = $row;
