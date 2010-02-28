@@ -90,15 +90,17 @@ class Session {
 
         //Gets session and online status lifetime (in seconds)
         //If not specified in config, sets default 5 and 120 minutes values 
-        $onlineDuration  = array_key_exists('OnlineDuration', $Config)  ? $Config['OnlineDuration']   :  300;
+        $onlineDuration  = array_key_exists('OnlineDuration', $Config)  ? $Config['OnlineDuration']  :  300;
         $sessionDuration = array_key_exists('SessionDuration', $Config) ? $Config['SessionDuration'] : 7200;
         
+        $resource = array_key_exists('ResourceID', $Config) ? '\'' . $db->sql_escape($Config['ResourceID']) . '\'' : 'default';
+        
         //Deletes expired sessions
-        $sql = "DELETE FROM " . TABLE_SESSIONS . " WHERE TIMESTAMPDIFF(SECOND, session_updated, NOW()) > $sessionDuration";
+        $sql = "DELETE FROM " . TABLE_SESSIONS . " WHERE session_resource = $resource AND TIMESTAMPDIFF(SECOND, session_updated, NOW()) > $sessionDuration";
         if (!$db->sql_query($sql)) message_die(SQL_ERROR, "Can't delete expired sessions", '', __LINE__, __FILE__, $sql);
 
         //Online -> offline
-        $sql = "UPDATE " . TABLE_SESSIONS . " SET session_online = 0 WHERE TIMESTAMPDIFF(SECOND, session_updated, NOW()) > $onlineDuration";
+        $sql = "UPDATE " . TABLE_SESSIONS . " SET session_resource = $resource AND session_online = 0 WHERE TIMESTAMPDIFF(SECOND, session_updated, NOW()) > $onlineDuration";
         if (!$db->sql_query($sql)) message_die(SQL_ERROR, 'Can\'t update sessions online statuses', '', __LINE__, __FILE__, $sql);
     }
     
@@ -118,9 +120,9 @@ class Session {
         //Saves session in database.
         //If the session already exists, it updates the field online and updated.
         $id = $db->sql_escape($this->id);
-        $resource = $db->sql_escape($Config['ResourceID']);
+        $resource = array_key_exists('ResourceID', $Config) ? '\'' . $db->sql_escape($Config['ResourceID']) . '\'' : 'default';
         $user_id = $db->sql_escape(ANONYMOUS_USER);
-        $sql = "INSERT INTO " . TABLE_SESSIONS . " (session_id, session_ip, session_resource, user_id) VALUES ('$id', '$this->ip', '$resource', '$user_id') ON DUPLICATE KEY UPDATE session_online = 1";
+        $sql = "INSERT INTO " . TABLE_SESSIONS . " (session_id, session_ip, session_resource, user_id) VALUES ('$id', '$this->ip', $resource, '$user_id') ON DUPLICATE KEY UPDATE session_online = 1";
         if (!$db->sql_query($sql)) message_die(SQL_ERROR, 'Can\'t save current session', '', __LINE__, __FILE__, $sql);
     }
     
@@ -136,8 +138,8 @@ class Session {
             //Queries sessions table
             global $db, $Config;
 
-            $resource = $db->sql_escape($Config['ResourceID']);
-            $sql = "SELECT count(*) FROM " . TABLE_SESSIONS . " WHERE session_resource = '$resource' AND session_online = 1";
+            $resource = array_key_exists('ResourceID', $Config) ? '\'' . $db->sql_escape($Config['ResourceID']) . '\'' : 'default';
+            $sql = "SELECT count(*) FROM " . TABLE_SESSIONS . " WHERE session_resource = $resource AND session_online = 1";
             $count = (int)$db->sql_query_express($sql, "Can't count online users");
         }
         
