@@ -11,10 +11,6 @@
  * 
  */
 
-$_POST['LogIn'] = "OK";
-$_POST['username'] = "demo";
-$_POST['password'] = "demo";
-
 if ($_POST['LogIn']) {
     //User have submitted login form
     $username = $db->sql_escape($_POST['username']);
@@ -29,12 +25,12 @@ if ($_POST['LogIn']) {
                 $LoginError = "Incorrect password.";
             } else {
                 //Login successful
-                $Session->user_login($row['user_id']);
+                Session::load()->user_login($row['user_id']);
                 $LoginSuccessful = true;
             }
     }
 } elseif ($_POST['LogOut'] || $_GET['action'] == "user.logout") {
     //User have submitted logout form or clicked a logout link
-    $Session->user_logout();
+    Session::load()->user_logout();
 }
 ?>
