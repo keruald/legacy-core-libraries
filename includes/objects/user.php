@@ -9,7 +9,8 @@
  *
  * 0.1    2010-02-27 20:51    DcK
  *
- * @package Zed
+ * @package Keruald
+ * @subpackage Keruald
  * @copyright Copyright (c) 2010, Dereckson
  * @license Released under BSD license
  * @version 0.1
@@ -92,7 +93,7 @@ class User {
         //Updates or inserts
         $sql = "REPLACE INTO " . TABLE_USERS . " (`user_id`, `username`, `user_password`, `user_active`, `user_email`, `user_regdate`) VALUES ($id, '$name', '$password', $active, '$email', $regdate)";
         if (!$db->sql_query($sql)) {
-            message_die(SQL_ERROR, "Unable to save users", '', __LINE__, __FILE__, $sql);
+            message_die(SQL_ERROR, "Unable to save user", '', __LINE__, __FILE__, $sql);
         }
         
         if (!$this->id) {

@@ -68,8 +68,13 @@ function get_userid ($username) {
 
 //Plural management
 
+/*
+ * Gets a "s" if the specified amount requests the plural
+ * @param mixed $amount the quantity (should be numeric)
+ * @return string 's' if the amount is greater or equal than 2 ; otherwise, ''
+ */
 function s ($amount) {
-	if ($amount > 1) return "s";
+	if ($amount >= 2 || $amount <= -2 ) return 's';
 }
 
 /*
@@ -87,12 +92,18 @@ function dprint_r ($mixed) {
  * @return string a guid (without {})
  */
 function new_guid () {  
-	$chars = explode(",","a,b,c,d,e,f,0,1,2,3,4,5,6,7,8,9");
+	//The guid chars
+    $chars = explode(',', 'a,b,c,d,e,f,0,1,2,3,4,5,6,7,8,9');
+    
+    //Let's build our 36 characters string
+    //e.g. 68ed40c6-f5bb-4a4a-8659-3adf23536b75
 	$guid = "";
 	for ($i = 0 ; $i < 36 ; $i++) {
-		if ($i == 8 || $i == 13 || $i == 18 || $i == 23) {
-			$guid .= "-";
+        if ($i == 8 || $i == 13 || $i == 18 || $i == 23) {
+            //Dashes at position 9, 14, 19 and 24
+            $guid .= "-";
 		} else {
+            //0-f hex digit elsewhere
 			$guid .= $chars[mt_rand() % sizeof($characters)];
 		}
 	}
