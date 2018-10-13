@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
  * Keruald, core libraries for Pluton and Xen engines.

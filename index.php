@@ -2,8 +2,8 @@
 
 /*
  * Keruald, core libraries for Pluton and Xen engines.
- * (c) 2010, Sébastien Santoro aka Dereckson, some rights reserved
- * Released under BSD license
+* (c) 2010, SÃ©bastien Santoro aka Dereckson, some rights reserved
+* Released under BSD license
  *
  * Application entry point
  *
