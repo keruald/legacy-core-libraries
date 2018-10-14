@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Keruald, core libraries for Pluton and Xen engines.
  * (c) 2010, Sébastien Santoro aka Dereckson, some rights reserved
  * Released under BSD license
@@ -39,20 +39,24 @@ define ("SQL_ERROR",      65);
 define ("HACK_ERROR",     99);
 define ("GENERAL_ERROR", 117);
 
-/*
+/**
  * Prints human-readable information about a variable
  * wrapped in a general error and dies
+ *
  * @param mixed $mixed the variable to dump
  */
 function dieprint_r ($var, $title = '') {
-    if (!$title) $title = 'Debug';
-    
+    if (!$title) {
+        $title = 'Debug';
+    }
+
     //GENERAL_ERROR with print_r call as message
     message_die(GENERAL_ERROR, '<pre>' . print_r($var, true) .'</pre>', $title);
 }
 
-/*
+/**
  * Prints an error message and dies
+ *
  * @param int $code A constant identifying the type of error (SQL_ERROR, HACK_ERROR or GENERAL_ERROR)
  * @param string $text the error description
  * @param string $text the error title
@@ -71,17 +75,17 @@ function message_die ($code, $text = '', $title = '', $line = '', $file = '', $s
             $text .= ", line $line";
         }
     }
-    
+
     //Ensures we've an error title and adds relevant extra information
     switch ($code) {
         case HACK_ERROR:
             $title = $title ? $title : "Access non authorized";
             break;
-        
+
         case SQL_ERROR:
             global $db;
             $title = $title ? $title : "SQL error";
-            
+
             //Gets SQL error information
             $sqlError = $db->sql_error();
             if ($sqlError['message'] != '') {
@@ -89,22 +93,21 @@ function message_die ($code, $text = '', $title = '', $line = '', $file = '', $s
             }
             $text .= '<br />&nbsp;<br />Query: ';
             $text .= $sql;
-            
+
             break;
-        
+
         default:
             //TODO: here can be added code to handle error error ;-)
             //Falls to GENERAL_ERROR
-        
+
         case GENERAL_ERROR:
             $title = $title ? $title : "General error";
             break;
     }
-    
+
     //HTML output of $title and $text variables
     echo '<div class="FatalError"><p class="FatalErrorTitle">', $title,
          '</p><p>', $text, '</p></div>';
-    
+
     exit;
 }
-?>

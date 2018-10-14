@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Keruald, core libraries for Pluton and Xen engines.
  * (c) 2010, Sébastien Santoro aka Dereckson, some rights reserved
  * Released under BSD license
@@ -18,7 +18,7 @@
 /// I. SQL configuration                                                     ///
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
- 
+
 //SQL configuration
 $Config['sql']['product'] = 'MySQL';    //Only MySQL is currently implemented
 $Config['sql']['host'] = 'localhost';
@@ -61,7 +61,7 @@ define('BUFFER_SIZE', 4096);
  * The following settings give your script/application URL.
  *
  * Without mod_rewrite:
- * 
+ *
  *   Subdirectory:
  *     - $Config['SiteURL'] = 'http://www.yourdomain.tld/application/index.php';
  *     - $Config['BaseURL'] = '/application/index.php';
@@ -71,7 +71,7 @@ define('BUFFER_SIZE', 4096);
  *     - $Config['BaseURL'] = '/index.php';
  *
  * With mod_rewrite:
- * 
+ *
  *   Subdirectory:
  *     - $Config['SiteURL'] = 'http://www.yourdomain.tld/application';
  *     - $Config['BaseURL'] = '/application';
@@ -98,9 +98,9 @@ define('BUFFER_SIZE', 4096);
  * If you don't want to specify the server domain, you can use get_server_url:
  *      $Config['SiteURL'] = get_server_url() . '/application';
  *      $Config['SiteURL'] = get_server_url();
- * 
+ *
  * !!! No trailing slash !!!
- *   
+ *
  */
 
 $Config['SiteURL'] = get_server_url();
@@ -140,5 +140,3 @@ $Config['ResourceID'] = 1;
 
 //Sets duration lifetime to 2 hours
 ini_set('session.gc_maxlifetime', 2880);
-
-?>
